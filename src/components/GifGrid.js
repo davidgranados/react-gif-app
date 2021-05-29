@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import GifGridItem from "./GifGridItem";
 
 const GifGrid = ({ category }) => {
+  const [gifs, setGifs] = useState([]);
   useEffect(() => {
     const getGifs = async () => {
       const params = {
@@ -12,7 +14,9 @@ const GifGrid = ({ category }) => {
       const endpoint = "https://api.giphy.com/v1/gifs/search";
       var queryString = Object.keys(params)
         .map((key) => {
-          return encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
+          return (
+            encodeURIComponent(key) + "=" + encodeURIComponent(params[key])
+          );
         })
         .join("&");
       const url = `${endpoint}?${queryString}`;
@@ -25,14 +29,19 @@ const GifGrid = ({ category }) => {
           url: gif.images.downsized_medium.url,
         };
       });
-
-      console.log(gifs);
+      setGifs(gifs);
     };
     getGifs();
   }, [category]);
   return (
     <div>
       <h3>{category}</h3>
+      {gifs.map((gif) => (
+        <GifGridItem
+          key={gif.id}
+          {...gif}
+        />
+      ))}
     </div>
   );
 };
