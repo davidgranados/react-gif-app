@@ -2,7 +2,7 @@ import React from 'react';
 
 const GifGridItem = ({id, title, url}) => {
   return (
-    <div id={id} className="card">
+    <div id={id} className="card animate__animated animate__bounce">
       <img src={url} alt={title} />
       <p>{title}</p>
     </div>
